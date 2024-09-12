@@ -1,0 +1,97 @@
+.scroll-img {
+  display: flex;
+  position: relative;
+  align-items: center;
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-bottom: 50px;
+}
+
+.arrows {
+  display: flex;
+  gap: 20px;
+}
+
+.mind {
+  font-size: 1.4rem;
+  font-weight: 750;
+}
+
+.circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-left: 150px;
+  margin-right: 150px;
+}
+
+.food-icons {
+  margin-right: 20px;
+}
+
+.scroll-img .left-arrow,
+.scroll-img .right-arrow {
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.left-arrow,
+.right-arrow {
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+.scroll-img .left-arrow:hover,
+.scroll-img .right-arrow:hover {
+  opacity: 1;
+}
+
+#slider {
+  display: flex;
+  overflow-x: scroll;
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+
+#slider img {
+  width: 260px;
+  height: 120px;
+  display: inline-block;
+  padding: 2px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+#slider img:hover {
+  transform: scale(1.05);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.parent-container {
+  display: flex;
+  justify-content: center;
+}
+
+.hr-line {
+  width: 80%;
+  height: 1px;
+  background-color: rgb(229, 215, 215);
+}
