@@ -1,9 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import Wishlist from "./Components/Wishlist/Wishlist";
+import FrontPage from "./FrontPage";
+
+function App() {
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<FrontPage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        {/* Add other routes here */}
+      </Routes>
+    </div>
+  );
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

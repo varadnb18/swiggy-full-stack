@@ -1,6 +1,6 @@
 import React from "react";
 import "./Container.css";
-import Button from "../WIshlist/Button";
+import Button from "../Wishlist/Button";
 
 function Container({ hotels }) {
   return (

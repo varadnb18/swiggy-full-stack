@@ -4,7 +4,7 @@ import Home from "./Components/Container/Home";
 import Title from "./Components/Title/Title";
 import Sorting from "./Components/Sorting/Sorting";
 
-function App() {
+function FrontPage() {
   return (
     <div>
       <Header />
@@ -16,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default FrontPage;
