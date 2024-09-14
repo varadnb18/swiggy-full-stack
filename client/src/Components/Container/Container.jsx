@@ -1,18 +1,22 @@
 import React from "react";
 import "./Container.css";
+import Button from "../WIshlist/Button";
 
 function Container({ hotels }) {
   return (
     <>
       <div className="container">
-        <img className="box-img" src={hotels.house} alt="restrorent" />
+        <div className="relative-container">
+          <img className="box-img" src={hotels.house} alt="restaurant" />
+          <Button />
+        </div>
+
         <p className="place" style={{ fontWeight: 800 }}>
           {hotels.name}
         </p>
 
         <div className="rate">
           <img src={hotels.iconss} alt="star" className="star" />
-
           <p>{hotels.rate}</p>
           <span id="time" style={{ fontWeight: 600 }}>
             .{hotels.time}

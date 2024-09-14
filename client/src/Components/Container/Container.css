@@ -3,13 +3,18 @@
   width: 100%;
   max-width: 260px;
   border-radius: 7%;
-  cursor: pointer;
+  /* cursor: pointer; */
   margin-bottom: 5px;
 }
 
 .star {
   width: 17px;
   height: 20px;
+}
+
+.relative-container {
+  position: relative;
+  display: inline-block;
 }
 
 .rate {
@@ -27,7 +32,7 @@
 .container p {
   margin: 0;
   padding: 1px 0;
-  cursor: pointer;
+  /* cursor: pointer; */
   font-family: sans-serif;
   font-weight: 100;
 }
@@ -42,13 +47,13 @@
   position: relative;
   width: fit-content;
   padding: 10px;
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
+  /* cursor: pointer; */
+  /* transition: transform 0.1s ease-in-out; */
 }
 
-.container:hover {
+/* .container:hover {
   transform: scale(0.95);
-}
+} */
 
 .hotel-container {
   display: grid;
