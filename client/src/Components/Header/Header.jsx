@@ -6,7 +6,9 @@ function Header() {
   return (
     <div className="header-div">
       <div className="left-side">
-        <p>Prime Picks</p>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <p>Prime Picks</p>
+        </Link>
       </div>
       <div className="right-side">
         <p>
@@ -17,8 +19,8 @@ function Header() {
         </p>
         <p>Offers</p>
         <p>Help</p>
-        <Link to="/wishlist" style={{ textDecoration: "none" }}>
-          <p>Cart</p>
+        <Link to="/Accomodation" style={{ textDecoration: "none" }}>
+          <p>Add Item</p>
         </Link>
       </div>
     </div>

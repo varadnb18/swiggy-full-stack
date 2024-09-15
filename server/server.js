@@ -34,8 +34,8 @@ app.get("/", (req, res) => {
   res.send("Hello Express!");
 });
 
-app.get("/user", (req, res) => {
-  const sql = "SELECT * FROM users";
+app.get("/ImageStorage", (req, res) => {
+  const sql = "SELECT * FROM ImageStorage;";
   db.query(sql, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
