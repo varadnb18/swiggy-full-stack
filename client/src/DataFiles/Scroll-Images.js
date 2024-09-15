@@ -11,33 +11,25 @@ const ScrollImages = [
     id: 3,
     house: "./SideBar/pizza.png",
   },
+
   {
     id: 4,
-    house: "./SideBar/Rolls.png",
-  },
-  {
-    id: 5,
     house: "./SideBar/dosa.png",
   },
   {
-    id: 6,
+    id: 5,
     house: "./SideBar/samosa.png",
   },
   {
-    id: 7,
-    house: "./SideBar/biryani.png",
-  },
-
-  {
-    id: 8,
+    id: 6,
     house: "./SideBar/pasta.png",
   },
   {
-    id: 9,
+    id: 7,
     house: "./SideBar/momos.png",
   },
   {
-    id: 10,
+    id: 8,
     house: "./SideBar/shawarma.png",
   },
 ];
