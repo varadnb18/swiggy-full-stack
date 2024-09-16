@@ -3,11 +3,12 @@ import "./Form.css";
 
 function Form() {
   const [user, setUser] = useState({
-    url: "",
-    foodName: "",
+    image_url: "",
+    available_at: "",
     location: "",
     rating: "",
-    place: "",
+    more_items: "",
+    time_required: "",
   });
 
   function HandleInput(event) {
@@ -40,11 +41,12 @@ function Form() {
       });
 
     setUser({
-      url: "",
-      foodName: "",
+      image_url: "",
+      available_at: "",
       location: "",
       rating: "",
-      place: "",
+      more_items: "",
+      time_required: "",
     });
   }
 
@@ -54,24 +56,24 @@ function Form() {
         <h2>Food Entry Form</h2>
         <form onSubmit={HandleSubmit}>
           <div className="form-group">
-            <label htmlFor="url">URL:</label>
+            <label htmlFor="image_url">Image URL:</label>
             <input
               type="url"
-              name="url"
-              placeholder="Enter a valid URL"
-              value={user.url}
+              name="image_url"
+              placeholder="Enter the image URL"
+              value={user.image_url}
               onChange={HandleInput}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="foodName">Food Name:</label>
+            <label htmlFor="available_at">Available At:</label>
             <input
               type="text"
-              name="foodName"
-              placeholder="Enter the food name"
-              value={user.foodName}
+              name="available_at"
+              placeholder="Enter the shop or restaurant name"
+              value={user.available_at}
               onChange={HandleInput}
               required
             />
@@ -82,7 +84,7 @@ function Form() {
             <input
               type="text"
               name="location"
-              placeholder="Enter the location"
+              placeholder="Enter the location in Pune"
               value={user.location}
               onChange={HandleInput}
               required
@@ -106,13 +108,24 @@ function Form() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="place">Place in Pune:</label>
+            <label htmlFor="more_items">More Items:</label>
             <input
               type="text"
-              id="place"
-              name="place"
-              placeholder="Enter the place in Pune"
-              value={user.place}
+              name="more_items"
+              placeholder="Enter other items available at the place"
+              value={user.more_items}
+              onChange={HandleInput}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="time_required">Time Required To Prepare:</label>
+            <input
+              type="text"
+              name="time_required"
+              placeholder="Enter preparation time (e.g., 20 minutes)"
+              value={user.time_required}
               onChange={HandleInput}
               required
             />

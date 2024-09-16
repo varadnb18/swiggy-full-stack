@@ -35,10 +35,24 @@ app.get("/", (req, res) => {
 });
 
 app.post("/submit-form", (req, res) => {
-  const { url, foodName, location, rating, place } = req.body;
+  const {
+    image_url,
+    available_at,
+    location,
+    rating,
+    time_required,
+    more_items,
+  } = req.body;
 
-  const query = `INSERT INTO food_entries (url, food_name, location, rating, place) VALUES (?, ?, ?, ?, ?)`;
-  const values = [url, foodName, location, rating, place];
+  const query = `INSERT INTO FoodItems (image_url, available_at, location, rating, time_required, more_items) VALUES (?, ?, ?, ?, ?, ?)`;
+  const values = [
+    image_url,
+    available_at,
+    location,
+    rating,
+    time_required,
+    more_items,
+  ];
 
   db.query(query, values, (err, result) => {
     if (err) {
@@ -47,19 +61,20 @@ app.post("/submit-form", (req, res) => {
     }
 
     console.log("Data inserted successfully:", {
-      url,
-      foodName,
+      image_url,
+      available_at,
       location,
       rating,
-      place,
+      time_required,
+      more_items,
     });
 
     res.status(200).send("Data inserted successfully");
   });
 });
 
-app.get("/ImageStorage", (req, res) => {
-  const sql = "SELECT * FROM ImageStorage;";
+app.get("/FoodItems", (req, res) => {
+  const sql = "SELECT * FROM FoodItems;";
   db.query(sql, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
