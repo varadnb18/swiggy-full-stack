@@ -5,7 +5,7 @@ function Title() {
   return (
     <div className="title">
       <div className="mind1">
-        <p>Restaurants with online food delivery in Pune</p>
+        <p className="title-p">Restaurants with online food delivery in Pune</p>
       </div>
     </div>
   );

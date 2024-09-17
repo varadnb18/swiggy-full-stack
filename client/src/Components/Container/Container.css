@@ -9,7 +9,7 @@
 
 .star {
   width: 17px;
-  height: 20px;
+  height: 17px;
 }
 
 .relative-container {
@@ -18,10 +18,15 @@
 }
 
 .rate {
-  display: inline-flex;
-  gap: 8px;
-  justify-content: center;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-right: 15px;
+}
+
+.oneline {
+  display: flex;
+  gap: 5px;
 }
 
 .side {
@@ -47,13 +52,13 @@
   position: relative;
   width: fit-content;
   padding: 10px;
-  /* cursor: pointer; */
-  /* transition: transform 0.1s ease-in-out; */
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
 }
 
-/* .container:hover {
+.container:hover {
   transform: scale(0.95);
-} */
+}
 
 .hotel-container {
   display: grid;
