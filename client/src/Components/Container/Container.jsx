@@ -25,7 +25,8 @@ function Container({ hotel }) {
           </span>
         </div>
       </div>
-      <p className="side">{hotel.more_items}</p>
+      <p className="side">{hotel.more_items.substring(0, 32)}...</p>
+
       <p className="price">
         <span id="period">{hotel.location}</span>
       </p>

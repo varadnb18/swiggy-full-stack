@@ -7,7 +7,8 @@ function Header() {
     <div className="header-div">
       <div className="left-side">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <p>Prime Picks</p>
+          {/* <p>Prime Picks</p> */}
+          <img src="../pp.png" alt="pp" className="pp" />
         </Link>
       </div>
       <div className="right-side">
