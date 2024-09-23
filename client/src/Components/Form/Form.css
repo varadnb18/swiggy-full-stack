@@ -1,12 +1,12 @@
-.form-container {
+.viraj-container {
   background-color: white;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  width: 500px;
 }
 
-.main-form {
+.rahul-form {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
   display: flex;
@@ -21,7 +21,12 @@ h2 {
   margin-bottom: 20px;
 }
 
-.form-group {
+.arjun-group,
+.siddharth-group,
+.aniket-group,
+.rohit-group,
+.neeraj-group,
+.saurabh-group {
   margin-bottom: 15px;
   margin-right: 25px;
 }

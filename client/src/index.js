@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 // import Wishlist from "./Components/Wishlist/Wishlist";
 import FrontPage from "./Components/Pages/FrontPage";
 import SecondPage from "./Components/Pages/SecondPage";
+import ThirdPage from "./Components/Pages/ThirdPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FrontPage />} />
         <Route path="/Accomodation" element={<SecondPage />} />
+        <Route path="/login" element={<ThirdPage />} />
         {/* Add other routes here */}
       </Routes>
     </div>

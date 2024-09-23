@@ -51,11 +51,11 @@ function Form() {
   }
 
   return (
-    <div className="main-form">
-      <div className="form-container">
+    <div className="rahul-form">
+      <div className="viraj-container">
         <h2>Food Entry Form</h2>
         <form onSubmit={HandleSubmit}>
-          <div className="form-group">
+          <div className="arjun-group">
             <label htmlFor="image_url">Image URL:</label>
             <input
               type="url"
@@ -63,11 +63,12 @@ function Form() {
               placeholder="Enter the image URL"
               value={user.image_url}
               onChange={HandleInput}
+              style={{ outline: "none" }}
               required
             />
           </div>
 
-          <div className="form-group">
+          <div className="siddharth-group">
             <label htmlFor="available_at">Available At:</label>
             <input
               type="text"
@@ -75,11 +76,12 @@ function Form() {
               placeholder="Enter the shop or restaurant name"
               value={user.available_at}
               onChange={HandleInput}
+              style={{ outline: "none" }}
               required
             />
           </div>
 
-          <div className="form-group">
+          <div className="aniket-group">
             <label htmlFor="location">Location:</label>
             <input
               type="text"
@@ -87,11 +89,12 @@ function Form() {
               placeholder="Enter the location in Pune"
               value={user.location}
               onChange={HandleInput}
+              style={{ outline: "none" }}
               required
             />
           </div>
 
-          <div className="form-group">
+          <div className="rohit-group">
             <label htmlFor="rating">Rating (1-5):</label>
             <input
               type="number"
@@ -103,11 +106,12 @@ function Form() {
               placeholder="Enter a rating between 1 and 5"
               value={user.rating}
               onChange={HandleInput}
+              style={{ outline: "none" }}
               required
             />
           </div>
 
-          <div className="form-group">
+          <div className="neeraj-group">
             <label htmlFor="more_items">More Items:</label>
             <input
               type="text"
@@ -115,11 +119,12 @@ function Form() {
               placeholder="Enter other items available at the place"
               value={user.more_items}
               onChange={HandleInput}
+              style={{ outline: "none" }}
               required
             />
           </div>
 
-          <div className="form-group">
+          <div className="saurabh-group">
             <label htmlFor="time_required">Time Required To Prepare:</label>
             <input
               type="text"
@@ -127,6 +132,7 @@ function Form() {
               placeholder="Enter preparation time (e.g., 20 minutes)"
               value={user.time_required}
               onChange={HandleInput}
+              style={{ outline: "none" }}
               required
             />
           </div>

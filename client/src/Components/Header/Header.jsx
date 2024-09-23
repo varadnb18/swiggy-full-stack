@@ -19,9 +19,12 @@ function Header() {
           <i className="bi bi-search"></i> Search
         </p>
         <p>Offers</p>
-        <p>Help</p>
         <Link to="/Accomodation" style={{ textDecoration: "none" }}>
           <p>Add Item</p>
+        </Link>
+
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <p>Login</p>
         </Link>
       </div>
     </div>
