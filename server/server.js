@@ -1,10 +1,13 @@
-import express from "express";
+import express, { query } from "express";
 import cors from "cors";
 import mysql from "mysql2";
+import jwt from "jsonwebtoken";
 import bodyParser from "body-parser";
+import bcrypt from "bcrypt";
 
 const app = express();
 const PORT = 4000;
+const saltRounds = 10;
 
 app.use(cors({ origin: "http://localhost:3000" }));
 
@@ -70,6 +73,50 @@ app.post("/submit-form", (req, res) => {
     });
 
     res.status(200).send("Data inserted successfully");
+  });
+});
+
+app.post("/signup", (req, res) => {
+  const { name, email, password } = req.body;
+
+  bcrypt.hash(password, saltRounds, (err) => {
+    return res.json({ Error: "Error fro hashing password" });
+  });
+
+  const sql = `INSERT INTO Login (name , email , password) values (? , ? , ?)`;
+
+  const values = [name, email, hash];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.log("Enable to SignUp", err);
+      return res.status(500).send("Server error");
+    } else {
+      console.log("data insert successfully", {
+        name,
+        email,
+        password,
+      });
+      res.status(200).send("Data inserted successfully");
+    }
+  });
+});
+
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  const sql = `SELECT * FROM Login where email = ? AND password = ?`;
+  const values = [email, password];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      return res.status(500).json({ message: "Server error", error: err });
+    }
+
+    if (result.length > 0) {
+      res.status(200).json({ message: "Login successful", user: result[0] });
+    } else {
+      res.status(401).json({ message: "Invalid email or password" });
+    }
   });
 });
 

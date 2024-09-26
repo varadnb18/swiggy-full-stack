@@ -6,7 +6,7 @@ function Header() {
   return (
     <div className="header-div">
       <div className="left-side">
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/main-page" style={{ textDecoration: "none" }}>
           {/* <p>Prime Picks</p> */}
           <img src="../pp.png" alt="pp" className="pp" />
         </Link>
@@ -23,7 +23,7 @@ function Header() {
           <p>Add Item</p>
         </Link>
 
-        <Link to="/login" style={{ textDecoration: "none" }}>
+        <Link to="/" style={{ textDecoration: "none" }}>
           <p>Login</p>
         </Link>
       </div>

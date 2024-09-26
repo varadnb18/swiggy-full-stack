@@ -6,7 +6,6 @@ import "./Pages.css";
 function ThirdPage() {
   return (
     <>
-      <Header />
       <div className="third-page">
         <LoginPage />
       </div>

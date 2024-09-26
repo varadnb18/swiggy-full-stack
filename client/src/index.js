@@ -12,9 +12,9 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<FrontPage />} />
+        <Route path="/main-page" element={<FrontPage />} />
         <Route path="/Accomodation" element={<SecondPage />} />
-        <Route path="/login" element={<ThirdPage />} />
+        <Route path="/" element={<ThirdPage />} />
         {/* Add other routes here */}
       </Routes>
     </div>

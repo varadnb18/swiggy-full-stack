@@ -175,7 +175,8 @@ input:focus ~ label {
   transform: translateX(0);
 }
 
-.overlay-heading {
+.overlay-heading,
+.overlay-button {
   color: #fff;
 }
 
