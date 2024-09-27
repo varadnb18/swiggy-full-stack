@@ -15,13 +15,18 @@ function Container({ hotel }) {
       </p>
 
       <div className="rate">
-        <img src={hotel.iconss} alt="star" className="star" />
-        <p>{hotel.rating}</p>
-        <span id="time" style={{ fontWeight: 600 }}>
-          {hotel.time_required}
-        </span>
+        <div className="oneline">
+          <img src="./villa_images/images.jpg" alt="star" className="star" />
+          <p>{hotel.rating}</p>
+        </div>
+        <div>
+          <span id="time" style={{ fontWeight: 600 }}>
+            {hotel.time_required}
+          </span>
+        </div>
       </div>
-      <p className="side">{hotel.more_items}</p>
+      <p className="side">{hotel.more_items.substring(0, 32)}...</p>
+
       <p className="price">
         <span id="period">{hotel.location}</span>
       </p>

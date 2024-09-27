@@ -6,8 +6,9 @@ function Header() {
   return (
     <div className="header-div">
       <div className="left-side">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <p>Prime Picks</p>
+        <Link to="/main-page" style={{ textDecoration: "none" }}>
+          {/* <p>Prime Picks</p> */}
+          <img src="../pp.png" alt="pp" className="pp" />
         </Link>
       </div>
       <div className="right-side">
@@ -18,9 +19,12 @@ function Header() {
           <i className="bi bi-search"></i> Search
         </p>
         <p>Offers</p>
-        <p>Help</p>
         <Link to="/Accomodation" style={{ textDecoration: "none" }}>
           <p>Add Item</p>
+        </Link>
+
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <p>Login</p>
         </Link>
       </div>
     </div>

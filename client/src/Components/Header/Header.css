@@ -9,6 +9,11 @@
   z-index: 2;
 }
 
+.pp {
+  height: 3rem;
+  width: 5.5rem;
+}
+
 .left-side {
   display: flex;
   align-items: center;
