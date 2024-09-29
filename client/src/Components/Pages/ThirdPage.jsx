@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../Header/Header";
-import LoginPage from "../Login_Page/LoginPage";
+import LoginPage from "../Login Page/LoginPage";
 import "./Pages.css";
 
 function ThirdPage() {

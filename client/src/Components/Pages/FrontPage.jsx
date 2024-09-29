@@ -3,6 +3,7 @@ import ScrollBar from "../Scroll-Bar/ScrollBar";
 import Title from "../Title/Title";
 import Sorting from "../Sorting/Sorting";
 import Home from "../Container/Home";
+import "./Pages.css";
 
 function FrontPage() {
   return (
