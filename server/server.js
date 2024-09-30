@@ -13,7 +13,7 @@ const saltRounds = 10;
 app.use(
   cors({
     origin: "http://localhost:3000",
-    methods: ["POST", "GET", "DELETE"],
+    methods: ["POST", "GET", "DELETE", "PATCH"],
     credentials: true,
   })
 );
@@ -161,6 +161,56 @@ app.post("/login", (req, res) => {
     } else {
       return res.status(401).json({ message: "Invalid email or password" });
     }
+  });
+});
+
+app.patch("/update-password", (req, res) => {
+  const { email, oldPassword, newPassword } = req.body;
+
+  const getUserQuery = `SELECT * FROM Login WHERE email = ?`;
+  const updatePasswordQuery = `UPDATE Login SET password = ? WHERE email = ?`;
+
+  db.query(getUserQuery, [email], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const user = results[0];
+
+    // Compare the old password with the hashed password in the database
+    bcrypt.compare(oldPassword, user.password, (err, isMatch) => {
+      if (err) {
+        return res.status(500).json({ message: "Error comparing passwords" });
+      }
+
+      if (!isMatch) {
+        return res.status(401).json({ message: "Old password is incorrect" });
+      }
+
+      // Hash the new password
+      bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: "Error hashing new password" });
+        }
+
+        // Update the password in the database
+        db.query(updatePasswordQuery, [hashedPassword, email], (err) => {
+          if (err) {
+            return res.status(500).json({ message: "Error updating password" });
+          }
+
+          return res
+            .status(200)
+            .json({ message: "Password updated successfully" });
+        });
+      });
+    });
   });
 });
 
