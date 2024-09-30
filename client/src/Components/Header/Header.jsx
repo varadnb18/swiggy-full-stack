@@ -1,13 +1,47 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Header.css";
+import { useAuth } from "../Auth-Validate/AuthContext"; // Import useAuth
 
 function Header() {
+  const { isAuthenticated, logout } = useAuth(); // Use the context
+  const [name, setName] = useState("");
+
+  const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000")
+      .then((response) => {
+        if (response.status === 200) {
+          setName(response.data.name);
+        }
+      })
+      .catch((error) => {
+        console.log("Error", error.response?.data || error.message);
+      });
+  }, []);
+
+  const handleLogout = () => {
+    axios
+      .get("http://localhost:4000/logout")
+      .then((response) => {
+        if (response.data.status === "Success") {
+          logout();
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.error("Logout error:", err);
+      });
+  };
+
   return (
     <div className="header-div">
       <div className="left-side">
         <Link to="/main-page" style={{ textDecoration: "none" }}>
-          {/* <p>Prime Picks</p> */}
           <img src="../pp.png" alt="pp" className="pp" />
         </Link>
       </div>
@@ -23,9 +57,13 @@ function Header() {
           <p>Add Item</p>
         </Link>
 
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <p>Login</p>
-        </Link>
+        {!isAuthenticated ? (
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <p>Login</p>
+          </Link>
+        ) : (
+          <p onClick={handleLogout}>Logout</p>
+        )}
       </div>
     </div>
   );

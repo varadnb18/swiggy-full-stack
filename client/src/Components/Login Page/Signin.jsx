@@ -1,20 +1,30 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LoginPage.css";
+import { useNavigate, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGooglePlusG,
+  faFacebookF,
+  faLinkedinIn,
+} from "@fortawesome/free-brands-svg-icons";
+import { useAuth } from "../Auth-Validate/AuthContext";
 
-function SignUpForm() {
-  const [sign, setSign] = useState({
-    name: "",
+function SignInForm() {
+  const [login, setLogin] = useState({
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
+
+  axios.defaults.withCredentials = true;
 
   function HandleInput(event) {
     const { value, name } = event.target;
 
-    setSign((prevalue) => ({
+    setLogin((prevalue) => ({
       ...prevalue,
       [name]: value,
     }));
@@ -24,66 +34,54 @@ function SignUpForm() {
     event.preventDefault();
 
     axios
-      .post("http://localhost:4000/signup", sign, {
+      .post("http://localhost:4000/login", login, {
         headers: {
           "Content-Type": "application/json",
         },
-        // body: JSON.stringify(sign),
       })
-      // .then((response) => response.json())
-
       .then((response) => {
         if (response.status === 200) {
+          authLogin(); // Call the login function from context
           navigate("/main-page");
           alert(response.data.message);
         }
       })
 
-      .then((error) => {
-        console.log("Error", error);
+      .catch((error) => {
+        console.log("Error occurred:", error.response.data.message);
+        alert(error.response.data.message);
       });
 
-    setSign({
-      name: "",
+    setLogin({
       email: "",
       password: "",
     });
   }
+
   return (
-    <div className="form-container sign-up-container">
+    <div className="form-container sign-in-container">
       <form action="#" className="form" onSubmit={HandleSubmit}>
-        <h1 className="form-heading">Create Account</h1>
+        <h1 className="form-heading">Sign in</h1>
         <div className="social-container">
           <a href="#" className="social-icon">
-            <i className="fab fa-facebook-f"></i>
+            <FontAwesomeIcon icon={faFacebookF} />
           </a>
           <a href="#" className="social-icon">
-            <i className="fab fa-google-plus-g"></i>
+            <FontAwesomeIcon icon={faGooglePlusG} />
           </a>
           <a href="#" className="social-icon">
-            <i className="fab fa-linkedin-in"></i>
+            <FontAwesomeIcon icon={faLinkedinIn} />
           </a>
         </div>
-        <span className="alternate-login">
-          or use your email for registration
-        </span>
-        <div className="input-field">
-          <input
-            type="text"
-            placeholder="Name"
-            name="name"
-            onChange={HandleInput}
-            value={sign.name}
-          />
-          <label></label>
-        </div>
+        <span className="alternate-login">or use your account</span>
         <div className="input-field">
           <input
             type="email"
             placeholder="Email"
             name="email"
             onChange={HandleInput}
-            value={sign.email}
+            value={login.email}
+            required
           />
           <label></label>
         </div>
@@ -93,16 +91,18 @@ function SignUpForm() {
             placeholder="Password"
             name="password"
             onChange={HandleInput}
-            value={sign.password}
+            value={login.password}
+            required
           />
           <label></label>
         </div>
-        <button className="form-button">Sign Up</button>
+        <Link to="/change-password">
+          <p className="forgot-password">Change your password?</p>
+        </Link>
+        <button className="form-button">Sign In</button>
       </form>
-      {console.log(sign.email)};{console.log(sign.password)};
-      {console.log(sign.name)}
     </div>
   );
 }
 
-export default SignUpForm;
+export default SignInForm;

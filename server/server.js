@@ -4,15 +4,23 @@ import mysql from "mysql2";
 import jwt from "jsonwebtoken";
 import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = 4000;
 const saltRounds = 10;
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["POST", "GET", "DELETE", "PATCH"],
+    credentials: true,
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -33,8 +41,26 @@ db.connect((err) => {
   console.log("Connected to the database.");
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello Express!");
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ error: "You are not authenticated" });
+  } else {
+    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ error: "Token is not valid" });
+      } else {
+        req.name = decoded.name;
+        next();
+      }
+    });
+  }
+};
+
+app.get("/", verifyUser, (req, res) => {
+  return res.json({ Status: "Success", name: req.name });
+  // res.send("Hello Express!");
 });
 
 app.post("/submit-form", (req, res) => {
@@ -79,33 +105,30 @@ app.post("/submit-form", (req, res) => {
 app.post("/signup", (req, res) => {
   const { name, email, password } = req.body;
 
-  bcrypt.hash(password, saltRounds, (err) => {
-    return res.json({ Error: "Error fro hashing password" });
-  });
-
-  const sql = `INSERT INTO Login (name , email , password) values (? , ? , ?)`;
-
-  const values = [name, email, hash];
-
-  db.query(sql, values, (err, result) => {
+  bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
-      console.log("Enable to SignUp", err);
-      return res.status(500).send("Server error");
-    } else {
-      console.log("data insert successfully", {
-        name,
-        email,
-        password,
-      });
-      res.status(200).send("Data inserted successfully");
+      return res.json({ Error: "Error hashing password" });
     }
+
+    const sql = `INSERT INTO Login (name, email, password) values (?, ?, ?)`;
+    const values = [name, email, hash];
+
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.log("Unable to SignUp", err);
+        return res.status(500).send("Server error");
+      }
+
+      console.log("Data inserted successfully", { name, email });
+      res.status(200).send("Data inserted successfully");
+    });
   });
 });
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM Login where email = ? AND password = ?`;
-  const values = [email, password];
+  const sql = `SELECT * FROM Login WHERE email = ?`;
+  const values = [email];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -113,10 +136,96 @@ app.post("/login", (req, res) => {
     }
 
     if (result.length > 0) {
-      res.status(200).json({ message: "Login successful", user: result[0] });
+      const user = result[0];
+
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: "Error comparing passwords", error: err });
+        }
+
+        if (isMatch) {
+          const name = user.name;
+          const token = jwt.sign({ name }, "jwt-secret-key", {
+            expiresIn: "1d",
+          });
+
+          res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
+
+          return res.status(200).json({ message: "Login successful", user });
+        } else {
+          return res.status(401).json({ message: "Invalid email or password" });
+        }
+      });
     } else {
-      res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
+  });
+});
+
+app.delete("/FoodItems/:id", (req, res) => {
+  const foodItemId = req.params.id;
+
+  const sql = `DELETE FROM FoodItems WHERE id = ?`;
+  db.query(sql, [foodItemId], (err, result) => {
+    if (err) {
+      console.error("Error deleting food item:", err);
+      return res.status(500).json({ message: "Server error" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Food item not found" });
+    }
+
+    return res.status(200).json({ message: "Food item deleted successfully" });
+  });
+});
+
+app.patch("/update-password", (req, res) => {
+  const { email, oldPassword, newPassword } = req.body;
+
+  const getUserQuery = `SELECT * FROM Login WHERE email = ?`;
+  const updatePasswordQuery = `UPDATE Login SET password = ? WHERE email = ?`;
+
+  db.query(getUserQuery, [email], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const user = results[0];
+
+    bcrypt.compare(oldPassword, user.password, (err, isMatch) => {
+      if (err) {
+        return res.status(500).json({ message: "Error comparing passwords" });
+      }
+
+      if (!isMatch) {
+        return res.status(401).json({ message: "Old password is incorrect" });
+      }
+
+      bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: "Error hashing new password" });
+        }
+
+        db.query(updatePasswordQuery, [hashedPassword, email], (err) => {
+          if (err) {
+            return res.status(500).json({ message: "Error updating password" });
+          }
+
+          return res
+            .status(200)
+            .json({ message: "Password updated successfully" });
+        });
+      });
+    });
   });
 });
 
@@ -126,6 +235,15 @@ app.get("/FoodItems", (req, res) => {
     if (err) return res.json(err);
     return res.json(data);
   });
+});
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: false,
+  });
+  return res.status(200).json({ status: "Success", message: "Logged out" });
 });
 
 app.listen(PORT, () => {

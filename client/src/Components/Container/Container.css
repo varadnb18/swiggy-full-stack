@@ -70,3 +70,24 @@
   margin-left: 155px;
   margin-right: 155px;
 }
+
+.deleteit {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.deleteit i {
+  font-size: 15px;
+  color: #333;
+}
+
+.deleteit:hover {
+  background-color: #e0e0e0;
+}

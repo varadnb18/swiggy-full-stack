@@ -27,6 +27,7 @@ const LoginPage = () => {
             <p className="overlay-text">
               To keep connected with us, please login with your personal info
             </p>
+
             <button onClick={handleOverlayClick} className="overlay-button">
               Sign In
             </button>
