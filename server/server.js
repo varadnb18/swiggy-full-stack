@@ -164,6 +164,24 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.delete("/FoodItems/:id", (req, res) => {
+  const foodItemId = req.params.id;
+
+  const sql = `DELETE FROM FoodItems WHERE id = ?`;
+  db.query(sql, [foodItemId], (err, result) => {
+    if (err) {
+      console.error("Error deleting food item:", err);
+      return res.status(500).json({ message: "Server error" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Food item not found" });
+    }
+
+    return res.status(200).json({ message: "Food item deleted successfully" });
+  });
+});
+
 app.patch("/update-password", (req, res) => {
   const { email, oldPassword, newPassword } = req.body;
 
@@ -181,7 +199,6 @@ app.patch("/update-password", (req, res) => {
 
     const user = results[0];
 
-    // Compare the old password with the hashed password in the database
     bcrypt.compare(oldPassword, user.password, (err, isMatch) => {
       if (err) {
         return res.status(500).json({ message: "Error comparing passwords" });
@@ -191,7 +208,6 @@ app.patch("/update-password", (req, res) => {
         return res.status(401).json({ message: "Old password is incorrect" });
       }
 
-      // Hash the new password
       bcrypt.hash(newPassword, saltRounds, (err, hashedPassword) => {
         if (err) {
           return res
@@ -199,7 +215,6 @@ app.patch("/update-password", (req, res) => {
             .json({ message: "Error hashing new password" });
         }
 
-        // Update the password in the database
         db.query(updatePasswordQuery, [hashedPassword, email], (err) => {
           if (err) {
             return res.status(500).json({ message: "Error updating password" });

@@ -32,7 +32,6 @@ function Changepassword() {
     event.preventDefault();
 
     try {
-      // Send PATCH request to update the password
       const response = await axios.patch(
         "http://localhost:4000/update-password",
         {
@@ -44,7 +43,7 @@ function Changepassword() {
 
       if (response.status === 200) {
         alert("Password updated successfully!");
-        navigate("/"); // Redirect after successful password change
+        navigate("/");
       }
     } catch (error) {
       console.error("Error updating password", error);
