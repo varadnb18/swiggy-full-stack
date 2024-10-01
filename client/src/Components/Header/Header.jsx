@@ -7,6 +7,7 @@ import { useAuth } from "../Auth-Validate/AuthContext"; // Import useAuth
 function Header() {
   const { isAuthenticated, logout } = useAuth(); // Use the context
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
 
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
@@ -17,6 +18,8 @@ function Header() {
       .then((response) => {
         if (response.status === 200) {
           setName(response.data.name);
+          setRole(response.data.role);
+          console.log(response.data.role);
         }
       })
       .catch((error) => {
@@ -53,9 +56,11 @@ function Header() {
           <i className="bi bi-search"></i> Search
         </p>
         <p>Offers</p>
-        <Link to="/Accomodation" style={{ textDecoration: "none" }}>
-          <p>Add Item</p>
-        </Link>
+        {role === "ADMIN" && (
+          <Link to="/Accomodation" style={{ textDecoration: "none" }}>
+            <p>Add Item</p>
+          </Link>
+        )}
 
         {!isAuthenticated ? (
           <Link to="/" style={{ textDecoration: "none" }}>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Form.css";
 
 function Form() {
@@ -25,14 +26,15 @@ function Form() {
   function HandleSubmit(event) {
     event.preventDefault();
 
-    fetch("http://localhost:4000/submit-form", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((response) => response.json())
+    axios
+      .post("http://localhost:4000/submit-form", user, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+        // body: JSON.stringify(user),
+      })
+
       .then((data) => {
         console.log("Success:", data);
       })

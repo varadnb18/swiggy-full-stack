@@ -44,6 +44,8 @@ function SignInForm() {
           authLogin(); // Call the login function from context
           navigate("/main-page");
           alert(response.data.message);
+          localStorage.setItem("token", response.data.token);
+          console.log(response.data);
         }
       })
 

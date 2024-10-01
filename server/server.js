@@ -52,18 +52,40 @@ const verifyUser = (req, res, next) => {
         return res.status(403).json({ error: "Token is not valid" });
       } else {
         req.name = decoded.name;
+        req.role = decoded.role;
         next();
       }
     });
   }
 };
 
+const verifyAdmin = (req, res, next) => {
+  const token = req.headers["authorization"];
+  console.log(token);
+
+  if (!token) {
+    return res.status(401).json({ error: "You are not authenticated" });
+  } else {
+    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+      if (err) {
+        return res.status(403).json({ error: "Token is not valid" });
+      } else {
+        req.name = decoded.name;
+
+        if (decoded.role == "ADMIN") {
+          next();
+        }
+      }
+    });
+  }
+};
+
 app.get("/", verifyUser, (req, res) => {
-  return res.json({ Status: "Success", name: req.name });
+  return res.json({ Status: "Success", name: req.name, role: req.role });
   // res.send("Hello Express!");
 });
 
-app.post("/submit-form", (req, res) => {
+app.post("/submit-form", verifyAdmin, (req, res) => {
   const {
     image_url,
     available_at,
@@ -146,14 +168,20 @@ app.post("/login", (req, res) => {
         }
 
         if (isMatch) {
-          const name = user.name;
-          const token = jwt.sign({ name }, "jwt-secret-key", {
-            expiresIn: "1d",
-          });
+          const name_temp = user.name;
+          const role_temp = user.role;
+
+          const token = jwt.sign(
+            { name: name_temp, role: role_temp },
+            "jwt-secret-key",
+            {
+              expiresIn: "1d",
+            }
+          );
 
           res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
 
-          return res.status(200).json({ message: "Login successful", user });
+          return res.status(200).json({ message: "Login successful", token });
         } else {
           return res.status(401).json({ message: "Invalid email or password" });
         }
@@ -229,11 +257,14 @@ app.patch("/update-password", (req, res) => {
   });
 });
 
-app.get("/FoodItems", (req, res) => {
+app.get("/FoodItems", verifyUser, (req, res) => {
   const sql = "SELECT * FROM FoodItems;";
   db.query(sql, (err, data) => {
     if (err) return res.json(err);
-    return res.json(data);
+    return res.json({
+      role: req.role,
+      foodItems: data,
+    });
   });
 });
 
