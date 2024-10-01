@@ -9,6 +9,7 @@ import FrontPage from "./Components/Pages/FrontPage";
 import SecondPage from "./Components/Pages/SecondPage";
 import ThirdPage from "./Components/Pages/ThirdPage";
 import Fourthpage from "./Components/Pages/Fourthpage";
+// import ProtectedInsert from "./Components/Auth-Validate/ProtectedInsert";
 
 function App() {
   return (

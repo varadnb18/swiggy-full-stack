@@ -5,10 +5,15 @@ import jwt from "jsonwebtoken";
 import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 
 const app = express();
 const PORT = 4000;
 const saltRounds = 10;
+
+dotenv.config();
+const key = process.env.secretkey;
+const password = process.env.password;
 
 app.use(
   cors({
@@ -25,7 +30,7 @@ app.use(cookieParser());
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "mY$pQL!58gN#9cD^7sZl",
+  password: password,
   database: "Swiggy",
   port: 3306,
   waitForConnections: true,
@@ -47,7 +52,7 @@ const verifyUser = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ error: "You are not authenticated" });
   } else {
-    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+    jwt.verify(token, key, (err, decoded) => {
       if (err) {
         return res.status(403).json({ error: "Token is not valid" });
       } else {
@@ -66,7 +71,7 @@ const verifyAdmin = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ error: "You are not authenticated" });
   } else {
-    jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+    jwt.verify(token, key, (err, decoded) => {
       if (err) {
         return res.status(403).json({ error: "Token is not valid" });
       } else {
@@ -171,13 +176,9 @@ app.post("/login", (req, res) => {
           const name_temp = user.name;
           const role_temp = user.role;
 
-          const token = jwt.sign(
-            { name: name_temp, role: role_temp },
-            "jwt-secret-key",
-            {
-              expiresIn: "1d",
-            }
-          );
+          const token = jwt.sign({ name: name_temp, role: role_temp }, key, {
+            expiresIn: "1d",
+          });
 
           res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
 
