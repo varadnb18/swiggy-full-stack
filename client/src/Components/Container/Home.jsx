@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Container from "./Container";
 import DeletePop from "../DeletePopUp/DeletePop";
+import axios from "axios";
 import "./Container.css";
 
 function Home() {
@@ -8,13 +9,23 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState(null);
+  const [user, setUser] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:4000/FoodItems")
-      .then((response) => response.json())
-      .then((data) => {
-        setUsers(data);
+    setLoading(true);
+
+    axios
+      .get("http://localhost:4000/FoodItems")
+      .then((response) => {
+        setUsers(response.data.foodItems);
         setLoading(false);
+
+        if (response.data.role) {
+          setUser(response.data.role);
+          console.log(response.data.role);
+        } else {
+          console.log("Role is undefined");
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -66,13 +77,13 @@ function Home() {
       ) : (
         <p>No hotels found.</p>
       )}
-      {isPopupOpen && (
+      {isPopupOpen && user === "ADMIN" ? (
         <DeletePop
           closePopup={closePopup}
           handleDelete={handleDelete}
           hotel={selectedHotel}
         />
-      )}
+      ) : null}
     </div>
   );
 }
